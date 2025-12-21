@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sawda Rehman - Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-blue': '#0f172a',
+                        'navy': '#1e293b',
+                        'blue-accent': '#3b82f6',
+                        'light-blue': '#60a5fa',
+                    },
+                    container: {
+                        center: true,
+                        padding: {
+                            DEFAULT: '1rem',
+                            sm: '2rem',
+                            lg: '4rem',
+                            xl: '5rem',
+                            '2xl': '6rem',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .code-font { font-family: 'JetBrains Mono', monospace; }
+        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
+        .particle { position: absolute; background: rgba(59, 130, 246, 0.3); border-radius: 50%; animation: float 6s ease-in-out infinite; }
+        @keyframes float { 0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(180deg);} }
+        .typewriter { color:#60a5fa; font-family:'JetBrains Mono', monospace; font-weight:500; overflow:hidden; white-space:nowrap; display:inline-block; min-width:280px; }
+    </style>
+</head>
+<body class="bg-dark-blue text-white overflow-x-hidden">
+    <div id="particles-js"></div>
+
+    <nav-component></nav-component>
+    <main>
+        <hero-section></hero-section>
+        <about-section></about-section>
+        <education-section></education-section>
+        <experience-section></experience-section>
+        <volunteer-section></volunteer-section>
+        <footer-section></footer-section>
+    </main>
+
+    <script>
+        // PARTICLES
+        function createParticles() {
+            const container = document.getElementById('particles-js');
+            for(let i=0;i<50;i++){
+                const p=document.createElement('div');
+                p.className='particle';
+                p.style.left=Math.random()*100+'%';
+                p.style.top=Math.random()*100+'%';
+                const size=Math.random()*4+2;
+                p.style.width=size+'px';
+                p.style.height=size+'px';
+                p.style.animationDelay=Math.random()*6+'s';
+                p.style.animationDuration=(Math.random()*3+3)+'s';
+                container.appendChild(p);
+            }
+        }
+
+        // NAVIGATION COMPONENT
+        class NavComponent extends HTMLElement {
+            connectedCallback() {
+                this.innerHTML = `
+                    <nav class="fixed top-0 w-full bg-dark-blue/90 backdrop-blur-sm z-50 border-b border-navy">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                            <div class="flex justify-between items-center py-4">
+                                <div class="text-xl font-bold text-blue-accent">
+                                    <a href="index.html" class="hover:text-light-blue transition-colors duration-300">
+                                        <span class="code-font">&lt;Sawda/&gt;</span>
+                                    </a>
+                                </div>
+                                <div class="hidden md:flex space-x-8">
+                                    <a href="#home" class="nav-link text-white hover:text-blue-accent">Home</a>
+                                    <a href="#about" class="nav-link text-white hover:text-blue-accent">About Me</a>
+                                    <a href="#education" class="nav-link text-white hover:text-blue-accent">Education</a>
+                                    <a href="#experience" class="nav-link text-white hover:text-blue-accent">Experience</a>
+                                    <a href="projects.html" class="nav-link text-white hover:text-blue-accent">Frontend Projects</a>
+                                    <a href="graphic-designer.html" class="nav-link text-white hover:text-blue-accent">Graphic Design</a>
+                                    <a href="#volunteer" class="nav-link text-white hover:text-blue-accent">Volunteer</a>
+                                </div>
+                                <button id="mobile-menu-button" class="md:hidden text-white">
+                                    <i class="fas fa-bars text-xl"></i>
+                                </button>
+                            </div>
+                            <div id="mobile-menu" class="hidden md:hidden pb-4 flex flex-col space-y-4">
+                                <a href="#home" class="nav-link text-white hover:text-blue-accent">Home</a>
+                                <a href="#about" class="nav-link text-white hover:text-blue-accent">About Me</a>
+                                <a href="#education" class="nav-link text-white hover:text-blue-accent">Education</a>
+                                <a href="#experience" class="nav-link text-white hover:text-blue-accent">Experience</a>
+                                <a href="projects.html" class="nav-link text-white hover:text-blue-accent">Frontend Projects</a>
+                                <a href="graphic-designer.html" class="nav-link text-white hover:text-blue-accent">Graphic Design</a>
+                                <a href="#volunteer" class="nav-link text-white hover:text-blue-accent">Volunteer</a>
+                            </div>
+                        </div>
+                    </nav>
+                `;
+                this.initMenu();
+                this.initScroll();
+            }
+            initMenu(){
+                const btn=this.querySelector('#mobile-menu-button');
+                const menu=this.querySelector('#mobile-menu');
+                btn.addEventListener('click',()=>menu.classList.toggle('hidden'));
+                this.querySelectorAll('.nav-link').forEach(l=>l.addEventListener('click',()=>menu.classList.add('hidden')));
+            }
+            initScroll(){
+                this.querySelectorAll('a[href^="#"]').forEach(anchor=>{
+                    anchor.addEventListener('click',function(e){
+                        e.preventDefault();
+                        const targetId=this.getAttribute('href');
+                        const offset = targetId === '#home'? 0: document.querySelector(targetId)?.offsetTop-80;
+                        if(offset!==undefined) window.scrollTo({top:offset,behavior:'smooth'});
+                    });
+                });
+            }
+        }
+
+        // HERO SECTION
+        class HeroSection extends HTMLElement {
+            connectedCallback(){
+                this.innerHTML=`
+                    <section id="home" class="min-h-screen flex items-center pt-20">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+                                <span class="text-white">Hi, I'm </span>
+                                <span class="text-blue-accent">Sawda Rehman</span>
+                            </h1>
+                            <div class="text-2xl md:text-3xl mb-8 h-14 flex justify-center items-center">
+                                <span class="typewriter" id="typewriter"></span>
+                            </div>
+                            <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+                                Passionate Computer Engineering student specializing in frontend development and graphic design.
+                            </p>
+                            <a href="RESUME.pdf" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition">
+                                Resume
+                            </a>
+                            <div class="mt-12 flex justify-center space-x-6">
+                            <!-- Email link: opens default email client with recipient pre-filled -->
+                            <a href="mailto:sawdarehman126@gmail.com" class="text-gray-400 hover:text-blue-accent">
+                                <i class="fas fa-envelope text-2xl"></i>
+                            </a>
+
+                            <!-- LinkedIn link: opens in a new tab -->
+                            <a href="https://www.linkedin.com/in/sawda-rehman-7ab524296/" target="_blank" class="text-gray-400 hover:text-blue-accent">
+                                <i class="fab fa-linkedin text-2xl"></i>
+                            </a>
+
+                            <!-- GitHub link: opens in a new tab -->
+                            <a href="https://github.com/repos" target="_blank" class="text-gray-400 hover:text-blue-accent">
+                                <i class="fab fa-github text-2xl"></i>
+                            </a>
+                        </div>
+
+                        </div>
+                    </section>
+                `;
+                this.initTypewriter();
+            }
+            initTypewriter() {
+    const el = document.getElementById('typewriter');
+    const texts = ['Frontend Developer', 'Graphic Designer'];
+    let currentTextIndex = 0;
+    let charIndex = 0;
+    let deleting = false;
+
+    function type() {
+        const currentText = texts[currentTextIndex];
+
+        if (!deleting) {
+            // Add character
+            el.textContent = currentText.slice(0, charIndex + 1);
+            charIndex++;
+
+            if (charIndex === currentText.length) {
+                // Wait before starting to delete
+                deleting = true;
+                setTimeout(type, 1500);
+                return;
+            }
+        } else {
+            // Remove character
+            el.textContent = currentText.slice(0, charIndex - 1);
+            charIndex--;
+
+            if (charIndex === 0) {
+                // Move to next text
+                deleting = false;
+                currentTextIndex = (currentTextIndex + 1) % texts.length;
+                setTimeout(type, 500);
+                return;
+            }
+        }
+
+        setTimeout(type, deleting ? 50 : 100);
+    }
+
+    // Start typing after initial delay
+    setTimeout(type, 1000);
+}
+
+        }
+
+        // ABOUT SECTION
+        class AboutSection extends HTMLElement {
+            connectedCallback(){
+                this.innerHTML=`
+                    <section id="about" class="py-20 bg-navy/50">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12"><span class="text-blue-accent">About</span> Me</h2>
+                            <div class="grid md:grid-cols-2 gap-12 items-center">
+                                <div>
+                                    <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                                        I'm a Computer Engineering Technology student at International Islamic University Islamabad.
+                                    </p>
+                                    <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                                        I enjoy building useful tech projects and designing creative visuals.
+                                    </p>
+                                    <p class="text-lg text-gray-300 mb-8 leading-relaxed">
+                                        I'm always curious, ready to learn, and excited to use my skills to help others and make a difference.   
+                                    </p>
+                                    <div class="flex flex-wrap gap-4">
+                                        <span class="bg-blue-accent/20 text-blue-accent px-4 py-2 rounded-full text-sm">Problem Solving</span>
+                                        <span class="bg-blue-accent/20 text-blue-accent px-4 py-2 rounded-full text-sm">Leadership</span>
+                                        <span class="bg-blue-accent/20 text-blue-accent px-4 py-2 rounded-full text-sm">Creativity</span>
+                                        <span class="bg-blue-accent/20 text-blue-accent px-4 py-2 rounded-full text-sm">Teamwork</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="bg-dark-blue p-8 rounded-lg border border-navy">
+                                        <h3 class="text-xl font-semibold mb-6 text-blue-accent">Quick Facts</h3>
+                                        <div class="space-y-4">
+                                            <div class="flex items-center"><i class="fas fa-map-marker-alt text-blue-accent mr-3"></i><span>Islamabad, Pakistan</span></div>
+                                            <div class="flex items-center"><i class="fas fa-graduation-cap text-blue-accent mr-3"></i><span>BSc Computer Engineering Technology</span></div>
+                                            <div class="flex items-center"><i class="fas fa-code text-blue-accent mr-3"></i><span>Frontend Developer & Designer</span></div>
+                                            <div class="flex items-center"><i class="fas fa-heart text-blue-accent mr-3"></i><span>Volunteer & Social Impact</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            }
+        }
+
+        // EDUCATION SECTION
+        class EducationSection extends HTMLElement {
+            connectedCallback(){
+                this.innerHTML=`
+                    <section id="education" class="py-20">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12"><span class="text-blue-accent">Education</span></h2>
+                            <div class="space-y-8">
+                                <div class="bg-navy/50 p-8 rounded-lg border border-navy">
+                                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                                        <h3 class="text-xl font-semibold text-blue-accent">Bachelor in Computer Engineering Technology</h3>
+                                        <span class="text-gray-400 text-sm md:text-base">2023 - 2027</span>
+                                    </div>
+                                    <p class="text-gray-300 mb-2">International Islamic University, Islamabad</p>
+                                    <p class="text-gray-400">Currently pursuing my degree with focus on software development, web technologies, and engineering principles.</p>
+                                </div>
+                                <div class="bg-navy/50 p-8 rounded-lg border border-navy">
+                                    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                                        <h3 class="text-xl font-semibold text-blue-accent">FSc in Engineering</h3>
+                                        <span class="text-gray-400 text-sm md:text-base">2021 - 2023</span>
+                                    </div>
+                                    <p class="text-gray-300 mb-2">IMCG-F7/2, Islamabad</p>
+                                    <p class="text-gray-400">Foundation in engineering principles with strong mathematical and scientific background.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            }
+        }
+
+        // EXPERIENCE SECTION
+        class ExperienceSection extends HTMLElement {
+            connectedCallback(){
+                this.innerHTML=`
+                    <section id="experience" class="py-20 bg-navy/50 text-center">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                            <h2 class="text-3xl md:text-4xl font-bold mb-12"><span class="text-blue-accent">Experience</span></h2>
+                            <p class="text-gray-300 max-w-2xl mx-auto mb-10">
+                                Explore my professional journey across both creative and technical fields.
+                            </p>
+                            <div class="flex flex-col md:flex-row justify-center items-center gap-8">
+                                <a href="graphic-designer.html" class="w-64 bg-dark-blue border border-blue-accent text-blue-accent font-semibold py-5 px-8 rounded-xl hover:bg-blue-accent hover:text-white transition shadow-lg hover:shadow-blue-500/30">Graphic Designer</a>
+                                <a href="projects.html" class="w-64 bg-dark-blue border border-blue-accent text-blue-accent font-semibold py-5 px-8 rounded-xl hover:bg-blue-accent hover:text-white transition shadow-lg hover:shadow-blue-500/30">Frontend Developer</a>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            }
+        }
+
+        // VOLUNTEER SECTION
+        class VolunteerSection extends HTMLElement {
+            connectedCallback() {
+                this.innerHTML = `
+                    <section id="volunteer" class="py-20 bg-navy/50">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+                            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
+                                <span class="text-blue-accent">Volunteer & Work</span> Experience
+                            </h2>
+                            <div class="space-y-6">
+                                <div class="bg-dark-blue p-6 rounded-lg border border-navy">
+                                    <h3 class="text-xl font-semibold text-blue-accent mb-2">Project Manager – Human Care Foundation (HCF), Rawalpindi</h3>
+                                    <p class="text-gray-400 text-sm">Aug 2024 – Jan 2025</p>
+                                </div>
+                                <div class="bg-dark-blue p-6 rounded-lg border border-navy">
+                                    <h3 class="text-xl font-semibold text-blue-accent mb-2">Media Team Member – Youth Insight</h3>
+                                    <p class="text-gray-400 text-sm">Dec 2024 – Dec 2025</p>
+                                </div>
+                                <div class="bg-dark-blue p-6 rounded-lg border border-navy">
+                                    <h3 class="text-xl font-semibold text-blue-accent mb-2">Incharge – Reporting & Documentation Team, Youth Empowerment</h3>
+                                    <p class="text-gray-400 text-sm">Jan 2025 – Dec 2025</p>
+                                </div>
+                                <div class="bg-dark-blue p-6 rounded-lg border border-navy">
+                                    <h3 class="text-xl font-semibold text-blue-accent mb-2">Graphic Designer – HopeNHeal Foundation</h3>
+                                    <p class="text-gray-400 text-sm">Nov 2024 – Present</p>
+                                </div>
+                                <div class="bg-dark-blue p-6 rounded-lg border border-navy">
+                                    <h3 class="text-xl font-semibold text-blue-accent mb-2">Graphic Designer – Friends Club</h3>
+                                    <p class="text-gray-400 text-sm">Dec 2024 – Oct 2025</p>
+                                </div>
+                                <div class="bg-dark-blue p-6 rounded-lg border border-navy">
+                                    <h3 class="text-xl font-semibold text-blue-accent mb-2">Content Creator – Skill Xcess</h3>
+                                    <p class="text-gray-400 text-sm">May 2025 – Present</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                `;
+            }
+        }
+
+        // FOOTER SECTION
+        class FooterSection extends HTMLElement {
+            connectedCallback(){
+                this.innerHTML=`
+                    <footer class="bg-dark-blue border-t border-navy py-12">
+                        <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-center">
+                            <h3 class="text-2xl font-bold mb-4"><span class="text-blue-accent code-font">&lt;Sawda Rehman/&gt;</span></h3>
+                            <p class="text-gray-400 mb-6">Passionate about creating meaningful digital experiences and contributing to social causes.</p>
+                            <div class="flex justify-center space-x-6 mb-8">
+                                <a href="mailto:sawdarehman126@gmail.com" class="text-gray-400 hover:text-blue-accent"><i class="fas fa-envelope text-xl"></i></a>
+                                <a href="tel:+923415303861" class="text-gray-400 hover:text-blue-accent"><i class="fas fa-phone text-xl"></i></a>
+                                <a href="#" class="text-gray-400 hover:text-blue-accent"><i class="fab fa-linkedin text-xl"></i></a>
+                                <a href="#" class="text-gray-400 hover:text-blue-accent"><i class="fab fa-github text-xl"></i></a>
+                            </div>
+                            <p class="text-gray-500 text-sm">© 2025 Sawda Rehman. All rights reserved.</p>
+                        </div>
+                    </footer>
+                `;
+            }
+        }
+
+        // REGISTER CUSTOM ELEMENTS
+        customElements.define('nav-component', NavComponent);
+        customElements.define('hero-section', HeroSection);
+        customElements.define('about-section', AboutSection);
+        customElements.define('education-section', EducationSection);
+        customElements.define('experience-section', ExperienceSection);
+        customElements.define('volunteer-section', VolunteerSection);
+        customElements.define('footer-section', FooterSection);
+
+        // INITIALIZE PARTICLES AND ANIMATION
+        document.addEventListener('DOMContentLoaded', ()=>{
+            createParticles();
+            const observer=new IntersectionObserver((entries)=>{
+                entries.forEach(entry=>{if(entry.isIntersecting) entry.target.classList.add('animate__animated','animate__fadeInUp');});
+            },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+            document.querySelectorAll('section').forEach(s=>observer.observe(s));
+        });
+    </script>
+</body>
+</html>

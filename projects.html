@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Sawda Rehman</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* dark-blue */
+            color: white;
+        }
+        
+        .project h1{
+                font-size: 4rem;        /* larger size */
+                font-weight: 900;       /* extra bold */
+                color: #3b82f6;         /* blue accent */
+                text-align: center;
+                margin-bottom: 3rem;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* subtle shadow to pop */
+            }
+
+
+        .project {
+            background-color: #1e293b; /* navy */
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2.5rem;
+            border: 2px solid #1e293b;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .project:hover {
+            transform: scale(1.03);
+            border-color: #3b82f6; /* blue-accent */
+        }
+        .project h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #3b82f6;
+        }
+        .project p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            color: #cbd5e1; /* light gray text */
+        }
+        .project a {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: #3b82f6;
+            color: white;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .project a:hover {
+            background-color: #60a5fa; /* light-blue */
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+         <h1 class="text-5xl font-bold text-center mt-16 mb-12">
+                My Projects
+            </h1>
+
+
+
+        <!-- Project 1 -->
+        <div class="project">
+            <h2>1. CS Connect Website</h2>
+            <p>CS Connect is a community platform designed for computer science students and professionals to connect, share resources, and collaborate on projects. It features user profiles, discussion forums, and event announcements tailored to tech enthusiasts.</p>
+            <a href="https://sawdah12.github.io/sawda-cs_connect-website-" target="_blank">Live Project Link</a>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project">
+            <h2>2. Quiz Website</h2>
+            <p>This interactive Quiz Website allows users to test their knowledge on various topics through multiple-choice quizzes. It provides instant feedback, scores, and a fun, user-friendly interface to encourage learning and engagement.</p>
+            <a href="https://sawdah12.github.io/Quiz/" target="_blank">Live Project Link</a>
+        </div>
+    </div>
+</body>
+</html>
